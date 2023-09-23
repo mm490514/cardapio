@@ -24,7 +24,7 @@ class Admin
 			$stmt->bind_param("ss", $this->email, $this->password);
 			$stmt->execute();
 			$result = $stmt->get_result();
-
+			
 			if ($result->num_rows > 0) {
 				$user = $result->fetch_assoc();
 
