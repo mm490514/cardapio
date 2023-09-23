@@ -16,6 +16,16 @@ if (true) {
 	  else
 		echo "0";
 	  ?>) </a></li>
+	  <li>
+		<a href="order.php" class="nav-link <?php if( mb_strpos($_SERVER["SCRIPT_NAME"], '#') != false) echo "active"?>" aria-current="page">
+		<i class="bi bi-bag-check"></i> Pedidos  (<?php
+	  if(isset($_SESSION["pedidos"])){
+	  $count = count($_SESSION["pedidos"]); 
+	  echo "$count"; 
+		}
+	  else
+		echo "0";
+	  ?>) </a></li>
   </ul>
 <?php        
 }

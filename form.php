@@ -31,7 +31,6 @@ $db = $database->getConexao();
         </div>
     </form>
 
-    <script src="./api/consultaCep.js"></script>
     <script>
         function verifica(value) {
             var input = document.getElementById("troco");
