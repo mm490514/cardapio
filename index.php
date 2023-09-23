@@ -19,9 +19,16 @@ if($codmesa == 123456789){
 }elseif($codmesa == 123456789){
 	$numMesa = 3;
 }else{
-	echo('erro');
+	echo('<div class="alert alert-danger" role="alert">
+	Erro favor ler QR CODE novamente !
+  	</div>');
 }
 }
+// }else{
+// 	echo('<div class="alert alert-danger" role="alert">
+// 	Erro favor ler QR CODE !
+//   	</div>'); exit;
+// }
 
 include('inc/header.php');
 ?>

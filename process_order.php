@@ -19,11 +19,14 @@ include('inc/header.php');
 		<div class='row'>
 			<?php
 			if (isset($_POST['enviar']) && !empty($_GET['order'])) {
-				$endereco = $_POST['rua'] . ", " . $_POST['numero'] . " - " . $_POST['bairro'] . " - " . $_POST['cidade'] . "-" . $_POST['uf'] . " " . $_POST['complemento'];
+				
+				if (isset($_POST['obs'])) {
+					$obs = $_POST['obs'];
+				}else{
+					$obs = '';
+				}
+
 				$nome = $_POST['nome'];
-				$contato = $_POST['celular'];
-				$obs = $_POST['obs'];
-				$opc_pgto = $_POST['forma_pagamento'];
 				$total = 0;
 				$orderDate = date('Y-m-d');
 				if (isset($_SESSION["cart"])) {
@@ -32,15 +35,11 @@ include('inc/header.php');
 						$nomeItem[] = $values["item_name"];
 						$preco[] = $values["item_price"];
 						$qtd[] = $values["item_quantity"];
-
 						$order->item_id = $values["item_id"];
 						$order->item_name = $values["item_name"];
 						$order->item_price = $values["item_price"];
 						$order->quantity = $values["item_quantity"];
 						$order->cliente_nome = $nome;
-						$order->cliente_contato = $contato;
-						$order->cliente_endereco = $endereco;
-						$order->cliente_opc_pgt = $opc_pgto;
 						$order->cliente_observacao = $obs;
 						$order->order_date = $orderDate;
 						$order->order_id = $_GET['order'];
