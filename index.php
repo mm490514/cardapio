@@ -20,14 +20,17 @@ if (isset($_GET['codmesa'])) {
     if (array_key_exists($codmesa, $mesaNumero)) {
         $numMesa = $mesaNumero[$codmesa];
         $_SESSION['cod_mesa'] = $codmesa;
+		$_SESSION['num_mesa'] = $numMesa;
     } else {
 		echo '<script>alert("Erro: Favor ler QR CODE!");</script>';
     	echo '<script>window.history.back();</script>';
     	exit; 
     }
 } elseif (isset($_SESSION['cod_mesa'])) {    
-    $codmesa = $_SESSION['cod_mesa'];
+    $codmesa = $_SESSION['cod_mesa'];	
     $numMesa = $mesaNumero[$codmesa];
+	$_SESSION['num_mesa'] = $numMesa;
+	
 } else {
 	echo '<script>alert("Erro: Favor ler QR CODE!");</script>';
     echo '<script>window.history.back();</script>';
