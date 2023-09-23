@@ -18,7 +18,7 @@ include('inc/header.php');
 	<div class="container-fluid">
 		<div class='row'>
 			<?php
-			if (isset($_POST['enviar']) && !empty($_GET['order'])) {
+			if (isset($_POST['enviar']) && !empty($_GET['order'])) {				
 				
 				if (isset($_POST['obs'])) {
 					$obs = $_POST['obs'];
@@ -27,6 +27,8 @@ include('inc/header.php');
 				}
 
 				$nome = $_POST['nome'];
+				$mesa = $_SESSION['num_mesa'];
+				$status = 0;
 				$total = 0;
 				$orderDate = date('Y-m-d');
 				if (isset($_SESSION["cart"])) {
@@ -40,6 +42,8 @@ include('inc/header.php');
 						$order->item_price = $values["item_price"];
 						$order->quantity = $values["item_quantity"];
 						$order->cliente_nome = $nome;
+						$order->num_mesa = $mesa;
+						$order->status = $status;
 						$order->cliente_observacao = $obs;
 						$order->order_date = $orderDate;
 						$order->order_id = $_GET['order'];

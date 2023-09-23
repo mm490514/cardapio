@@ -8,30 +8,38 @@ $db = $database->getConexao();
 $food = new Produto($db);
 $categoria = new Categoria($db);
 
+$mesaNumero = [
+    123456789 => 1,
+    987654321 => 2,
+    456789789 => 3,
+];
+
 if (isset($_GET['codmesa'])) {
+    $codmesa = $_GET['codmesa'];
 
-	$codmesa = $_GET['codmesa'];
-
-if($codmesa == 123456789){
-	$numMesa = 1;
-}elseif ($codmesa == 123456789){
-	$numMesa = 2;
-}elseif($codmesa == 123456789){
-	$numMesa = 3;
-}else{
-	echo('<div class="alert alert-danger" role="alert">
-	Erro favor ler QR CODE novamente !
-  	</div>');
+    if (array_key_exists($codmesa, $mesaNumero)) {
+        $numMesa = $mesaNumero[$codmesa];
+        $_SESSION['cod_mesa'] = $codmesa;
+		$_SESSION['num_mesa'] = $numMesa;
+    } else {
+		echo '<script>alert("Erro: Favor ler QR CODE!");</script>';
+    	echo '<script>window.history.back();</script>';
+    	exit; 
+    }
+} elseif (isset($_SESSION['cod_mesa'])) {    
+    $codmesa = $_SESSION['cod_mesa'];	
+    $numMesa = $mesaNumero[$codmesa];
+	$_SESSION['num_mesa'] = $numMesa;
+	
+} else {
+	echo '<script>alert("Erro: Favor ler QR CODE!");</script>';
+    echo '<script>window.history.back();</script>';
+    exit; 
 }
-}
-// }else{
-// 	echo('<div class="alert alert-danger" role="alert">
-// 	Erro favor ler QR CODE !
-//   	</div>'); exit;
-// }
 
 include('inc/header.php');
 ?>
+
 
 <title>Cardapio Digital</title>
 <link rel="stylesheet" type="text/css" href="css/foods.css">
