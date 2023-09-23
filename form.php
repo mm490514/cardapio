@@ -20,10 +20,8 @@ $db = $database->getConexao();
             <div style="margin-left: 80px;">
                 </div>
                 <h4 class="mt-3" >Detalhes do pedido</h4>
-                <p class="mb-1" id="Itens"><strong>Itens</strong>: <?php for ($i = 0; $i < $cont; $i++) echo " <br> " . $qtd[$i] . " " . $itens[$i] .  " - R$ "  . $precos[$i]  * $qtd[$i] ?> </p>
-                <p class="mb-1" id="Total-Itens"><strong>Total Itens</strong> : R$ <?php echo $orderTotal; ?></p>
-                <p class="mb-1" id="Taxa"><strong>Taxa de entrega</strong>: R$ 3</p>
-                <p class="mb-1" id="TotalPedido"><strong>Total pedido</strong>: R$ <?php echo $orderTotal + 3; ?></p>
+                <p class="mb-1" id="Itens"><strong>Itens</strong>: <?php for ($i = 0; $i < $cont; $i++) echo " <br> " . $qtd[$i] . " " . $itens[$i] .  " - R$ "  . $precos[$i]  * $qtd[$i] ?> </p>                              
+                <p class="mb-1" id="TotalPedido"><strong>Total pedido</strong>: R$ <?php echo $orderTotal; ?></p>
                 <div class="input-group">
                 <textarea class="form-control" placeholder="Observações"  aria-label="With textarea"></textarea>
                 </div>
