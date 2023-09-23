@@ -6,7 +6,7 @@ $db = $database->getConexao();
 ?>
 
 <div class="col">
-    <form id="dados" action="process_order.php?order=<?php echo $orderNumber; ?>" method="post">
+    <form id="dadoss" action="process_order.php?order=<?php echo $orderNumber; ?>" method="post">
         <h4>Dados para entrega</h4>
         <div style="display: flex;">
             <div>
