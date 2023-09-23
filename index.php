@@ -8,13 +8,27 @@ $db = $database->getConexao();
 $food = new Produto($db);
 $categoria = new Categoria($db);
 
+if (isset($_GET['codmesa'])) {
+
+	$codmesa = $_GET['codmesa'];
+
+if($codmesa == 123456789){
+	$numMesa = 1;
+}elseif ($codmesa == 123456789){
+	$numMesa = 2;
+}elseif($codmesa == 123456789){
+	$numMesa = 3;
+}else{
+	echo('erro');
+}
+}
+
 include('inc/header.php');
 ?>
 
 <title>Cardapio Digital</title>
 <link rel="stylesheet" type="text/css" href="css/foods.css">
 <?php include('inc/container.php'); ?>
-
 
 <div class="p-3">
 	<h4 style="text-align: center">Categorias</h4>
@@ -46,7 +60,6 @@ include('inc/header.php');
 				<div class='row'>
 					<?php include('top_menu.php'); ?>
 				</div>
-				<div class='row'>
 					<?php
 					$count = 0;
 					if (isset($_GET['q'])) {
