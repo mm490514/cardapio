@@ -10,9 +10,9 @@ $categoria = new Categoria($db);
 $produto = new Produto($db);
 $admin = new Admin($db);
 
-if (!$admin->loggedIn()) {
-	header("Location: login.php");
-}
+// if (!$admin->loggedIn()) {
+// 	header("Location: login.php");
+// }
 include('../inc/header.php');
 include('./inc/nav.php'); 
 ?>
