@@ -78,7 +78,7 @@ include('inc/header.php');
 						<div class="col-md-3">
 							<form method="post" action="cart.php?action=add&id=<?php echo $item["id"]; ?>">
 								<div class="mypanel" align="center" ;>
-									<img src="images/<?php echo $item["images"]; ?>" alt="" class="img-fluid">
+									<img src="images/<?php echo $item["images"]; ?>" alt="" class="img-fluid">										
 									<h5 class="text-dark"><?php echo $item["name"]; ?></h5>
 									<p class="text"><?php echo $item["description"]; ?></p>
 									<h5 class="text"><strong>R$ <?php echo $item["price"]; ?></strong></h5>
