@@ -23,7 +23,7 @@ $db = $database->getConexao();
                 <p class="mb-1" id="Itens"><strong>Itens</strong>: <?php for ($i = 0; $i < $cont; $i++) echo " <br> " . $qtd[$i] . " " . $itens[$i] .  " - R$ "  . $precos[$i]  * $qtd[$i] ?> </p>                              
                 <p class="mb-1" id="TotalPedido"><strong>Total pedido</strong>: R$ <?php echo $orderTotal; ?></p>
                 <div class="input-group">
-                <textarea class="form-control" placeholder="Observações"  aria-label="With textarea"></textarea>
+                <textarea class="form-control" id="obs" name="obs" placeholder="Observações"  aria-label="With textarea"></textarea>
                 </div>
                 <p><button id="btn" form="dados" type="submit" name="enviar" class="btn btn-outline-success mt-3">Confirmar Pedido</button></a></p>
         </div>

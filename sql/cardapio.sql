@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2023 at 07:59 PM
+-- Generation Time: Sep 26, 2023 at 04:23 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -61,8 +61,7 @@ CREATE TABLE `categorias` (
 INSERT INTO `categorias` (`id`, `nome`, `imagem`, `status`) VALUES
 (1, 'Bebidas', '', 1),
 (2, 'Combos', '', 1),
-(3, 'Lanches', '', 1),
-(6, 'MATHEUS HENRIQUE DE OLIVEIRA MENDES', '', 1);
+(3, 'Lanches', '', 1);
 
 -- --------------------------------------------------------
 
@@ -97,24 +96,22 @@ CREATE TABLE `pedidosvendas` (
   `price` double NOT NULL,
   `quantity` int(11) NOT NULL,
   `cliente_nome` varchar(200) NOT NULL,
-  `cliente_contato` varchar(50) NOT NULL,
-  `cliente_endereco` text NOT NULL,
-  `cliente_opc_pgt` int(11) NOT NULL,
   `observacao` text NOT NULL,
   `order_date` date NOT NULL DEFAULT current_timestamp(),
-  `order_id` int(11) NOT NULL
+  `order_id` int(11) NOT NULL,
+  `num_mesa` int(11) NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pedidosvendas`
 --
 
-INSERT INTO `pedidosvendas` (`id`, `item_id`, `name`, `price`, `quantity`, `cliente_nome`, `cliente_contato`, `cliente_endereco`, `cliente_opc_pgt`, `observacao`, `order_date`, `order_id`) VALUES
-(11, 9, 'Combo Clássico', 30, 1, 'Mat', '14997', 'Rua Julio Prestes, 18 - Vila Tsuda - Guaimbê-SP Vila Sudan', 3, 'teste', '2023-09-23', 941711),
-(12, 9, 'Combo Clássico', 30, 1, '45', '45', 'Rua Adelmo Fernades Polizatto, 18 - Conjunto Habitacional Guaimbê I - Guaimbê-SP ', 3, '', '2023-09-23', 429594),
-(13, 8, 'Fanta', 8, 3, '45', '45', 'Rua Adelmo Fernades Polizatto, 18 - Conjunto Habitacional Guaimbê I - Guaimbê-SP ', 3, '', '2023-09-23', 429594),
-(14, 9, 'Combo Clássico', 30, 1, 'MATHEUS HENRIQUE DE OLIVEIRA MENDES', '14997345836', 'Rua Almirante Barroso, 5 - Centro - Guaimbê-SP ', 3, '', '2023-09-23', 792403),
-(15, 8, 'Fanta', 8, 1, 'MATHEUS HENRIQUE DE OLIVEIRA MENDES', '14997345836', 'Rua Almirante Barroso, 5 - Centro - Guaimbê-SP ', 3, '', '2023-09-23', 792403);
+INSERT INTO `pedidosvendas` (`id`, `item_id`, `name`, `price`, `quantity`, `cliente_nome`, `observacao`, `order_date`, `order_id`, `num_mesa`, `status`) VALUES
+(30, 36, 'X tudão', 50, 1, 'Martin', 'X tudão sem ovo', '2023-09-26', 530701, 1, 0),
+(31, 9, 'Combo Clássico', 30, 1, 'Martin', 'X tudão sem ovo', '2023-09-26', 530701, 1, 0),
+(32, 10, 'Combo Salada', 25, 1, 'Martin', 'X tudão sem ovo', '2023-09-26', 530701, 1, 0),
+(33, 8, 'Fanta', 8, 1, 'Martin', 'X tudão sem ovo', '2023-09-26', 530701, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -137,16 +134,10 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `name`, `id_categoria`, `price`, `description`, `images`, `status`) VALUES
-(1, 'Americano', 3, 20.5, 'Hambúrguer, cheddar, bacon, picles e cebola', 'x-classico.jpg', 1),
-(2, 'X-Burger', 3, 25, 'Bacon e cebola caramelizada', 'x-classico.jpg', 1),
-(3, 'X-Egg', 3, 22, 'Hambúrguer de frango, catupiry, alface, tomate e molho tártaro', 'x-classico.jpg', 1),
-(4, 'X-Parmegiana', 3, 30, 'Mussarela, parmesão e molho de tomate', 'x-classico.jpg', 1),
-(6, 'Coca Cola 2L', 1, 9, '', 'coca.jpg', 1),
-(7, 'Hot-Cheddar', 3, 20, '', 'x-classico.jpg', 1),
 (8, 'Fanta', 1, 8, '', 'fanta.jpg', 1),
 (9, 'Combo Clássico', 2, 30, '', 'combo-classico.jpg', 1),
 (10, 'Combo Salada', 2, 25, '', 'combo-salada.jpg', 1),
-(11, 'MATHEUS HENRIQUE DE OLIVEIRA MENDES', 3, 10, 'teste', '', 1);
+(36, 'X tudão', 3, 50, 'vem tudo', 'xtudo.png', 1);
 
 --
 -- Indexes for dumped tables
@@ -175,8 +166,7 @@ ALTER TABLE `forma_pgto`
 --
 ALTER TABLE `pedidosvendas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `item_id` (`item_id`),
-  ADD KEY `cliente_opc_pgt` (`cliente_opc_pgt`);
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `produtos`
@@ -211,13 +201,13 @@ ALTER TABLE `forma_pgto`
 -- AUTO_INCREMENT for table `pedidosvendas`
 --
 ALTER TABLE `pedidosvendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
@@ -227,8 +217,7 @@ ALTER TABLE `produtos`
 -- Constraints for table `pedidosvendas`
 --
 ALTER TABLE `pedidosvendas`
-  ADD CONSTRAINT `pedidosvendas_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `produtos` (`id`),
-  ADD CONSTRAINT `pedidosvendas_ibfk_2` FOREIGN KEY (`cliente_opc_pgt`) REFERENCES `forma_pgto` (`id`);
+  ADD CONSTRAINT `pedidosvendas_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `produtos` (`id`);
 
 --
 -- Constraints for table `produtos`

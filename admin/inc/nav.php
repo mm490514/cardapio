@@ -12,16 +12,22 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Início</a>
+                        <a class="nav-link active" aria-current="page" href="pedidos.php">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="addproduto.php">Cadastrar Produto</a>
-                    </li>
+                        <a class="nav-link active" aria-current="page" href="pedidos.php">Pedidos</a>
+                    </li> 
                     <li class="nav-item">
-                        <a class="nav-link" href="addcategoria.php">Cadastrar Categoria</a>
+                        <a class="nav-link active" aria-current="page" href="index.php">Produtos</a>
+                    </li>                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="addcategoria.php">Categorias</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../index.php" target="_blank">Visualizar Cardápio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="pedidos.php">Pedidos Finalizados</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="desloga.php">Logout</a>

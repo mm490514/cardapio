@@ -3,6 +3,7 @@ class Admin
 {
 
 	private $produtosTable = 'produtos';
+	private $pedidosTable = 'pedidosvendas';
 	private $categoriasTable = 'categorias';
 	private $adminTable = 'admin';
 	private $con;
@@ -134,6 +135,13 @@ class Admin
 	
 	public function allProdutos(){		
 		$stmt = $this->con->prepare("SELECT id, name, id_categoria, price, description, images, status FROM ".$this->produtosTable. " order by id_categoria desc");				
+		$stmt->execute();			
+		$result = $stmt->get_result();		
+		return $result;	
+	}
+
+	public function allPedidos(){		
+		$stmt = $this->con->prepare("SELECT id, item_id, name, price, quantity, cliente_nome, status, observacao, order_id, num_mesa FROM ".$this->pedidosTable. " WHERE status <> 2 order by id desc");				
 		$stmt->execute();			
 		$result = $stmt->get_result();		
 		return $result;	
