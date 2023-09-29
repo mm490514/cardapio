@@ -19,6 +19,7 @@ include('inc/header.php');
 		$cont = 0;
 		$orderTotal = 0;
 		foreach ($_SESSION["cart"] as $keys => $values) {
+			
 			$itens[] = $values['item_name'];
 			$precos[] = $values['item_price'];
 			$qtd[] = $values['item_quantity'];

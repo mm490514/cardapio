@@ -72,7 +72,7 @@ include('inc/header.php');
 				<table class="table table-striped">
 					<thead class="thead-dark">
 						<tr>
-							<th width="40%">Nome</th>
+							<th width="40%">Nome</th>							
 							<th width="10%">Qtd</th>
 							<th width="20%">Preço Uni.</th>
 							<th width="25%">Subtotal</th>

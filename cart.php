@@ -45,6 +45,28 @@ if (isset($_GET["action"])) {
 }
 
 if (isset($_GET["action"])) {
+	if ($_GET["action"] == "add") {
+		foreach ($_SESSION["cart"] as $keys => $values) {
+			if ($values["food_id"] == $_GET["id"]) {
+				$_SESSION["cart"][$keys]["item_quantity"]++;				
+				echo '<script>window.location="cart.php"</script>';
+			}
+		}
+	}
+}
+
+if (isset($_GET["action"])) {
+	if ($_GET["action"] == "sub") {
+		foreach ($_SESSION["cart"] as $keys => $values) {
+			if ($values["food_id"] == $_GET["id"]) {
+				$_SESSION["cart"][$keys]["item_quantity"]--;				
+				echo '<script>window.location="cart.php"</script>';
+			}
+		}
+	}
+}
+
+if (isset($_GET["action"])) {
 	if ($_GET["action"] == "empty") {
 		foreach ($_SESSION["cart"] as $keys => $values) {
 			unset($_SESSION["cart"]);
@@ -69,24 +91,28 @@ include('inc/header.php');
 				<h3>Seu Carrinho:</h3>
 				<table class="table table-striped">
 					<thead class="thead-dark">
-						<tr>
+						<tr>							
+							<th></th>
 							<th width="40%">Nome</th>
-							<th width="10%">Qtd</th>
-							<th width="20%">Preço Uni.</th>
-							<th width="25%">Subtotal</th>
-							<th width="5%">Acão</th>
+							<th width="35%">Qtd</th>							
+							<th width="20%">Subtotal</th>
+							<th width="5%"></th>
 						</tr>
 					</thead>
 					<?php
 					$total = 0;
 					foreach ($_SESSION["cart"] as $keys => $values) {
 					?>
-						<tr>
-							<td><?php echo $values["item_name"]; ?></td>
-							<td><?php echo $values["item_quantity"]?></td>
-							<td>R$ <?php echo $values["item_price"]; ?></td>
-							<td>R$ <?php echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
-							<td><a href="cart.php?action=delete&id=<?php echo $values["food_id"]; ?>"><span class="text-danger">Remover</span></a></td>
+						<tr>							
+							<td><img src="images/xtudo.png" alt="Descrição da imagem" width="50" height="50"></td>
+							<td style="vertical-align: middle;"><?php echo $values["item_name"]; ?></td>
+							<td style="vertical-align: middle;">
+							<a href="cart.php?action=sub&id=<?php echo $values["food_id"]; ?>"><i class="fas fa-minus-circle text-black"></i></a>							
+							<span id="quantity-<?php echo $values["food_id"]; ?>"><?php echo $values["item_quantity"]; ?></span>
+							<a href="cart.php?action=add&id=<?php echo $values["food_id"]; ?>"><i class="fas fa-plus-circle text-black"></i></a>							
+							</td>									
+							<td style="vertical-align: middle;">R$ <?php echo $values["item_price"]; ?></td>
+							<td style="vertical-align: middle;"><a href="cart.php?action=delete&id=<?php echo $values["food_id"]; ?>"><i class="fas fa-times-circle text-danger"></i></a></td>
 						</tr>
 					<?php
 						$total = $total + ($values["item_quantity"] * $values["item_price"]);
@@ -116,3 +142,44 @@ include('inc/header.php');
 	</div>
 </div>
 <?php include('inc/footer.php'); ?>
+
+<script>
+function incrementQuantity(foodId) {
+  var quantityElement = document.getElementById("quantity-" + foodId);
+  var currentQuantity = parseInt(quantityElement.innerText);
+  var newQuantity = currentQuantity + 1;
+  quantityElement.innerText = newQuantity;
+}
+
+function decrementQuantity(foodId) {
+  var quantityElement = document.getElementById("quantity-" + foodId);
+  var currentQuantity = parseInt(quantityElement.innerText);
+  var newQuantity = currentQuantity - 1;
+  quantityElement.innerText = newQuantity;
+}
+
+
+function addToCart(itemId) {
+  // Crie um formulário em tempo real
+  var form = document.createElement("form");
+  form.method = "post";
+  form.action = "cart.php?action=add&id=" + itemId;
+
+  // Crie um elemento de botão de envio (opcional)
+  var submitButton = document.createElement("input");
+  submitButton.type = "submit";
+  submitButton.style.display = "none"; // Opcional: ocultar o botão de envio
+
+  // Adicione o botão de envio ao formulário
+  form.appendChild(submitButton);
+
+  // Anexe o formulário ao documento para que ele possa ser enviado
+  document.body.appendChild(form);
+
+  // Envie o formulário
+  form.submit();
+
+  // Opcional: remova o formulário após o envio
+  document.body.removeChild(form);
+}
+</script>
