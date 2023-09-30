@@ -4,6 +4,17 @@ include_once 'config/Database.php';
 $database = new Database();
 $db = $database->getConexao();
 
+if (isset($_GET["action"])) {
+	if ($_GET["action"] == "add") {
+		foreach ($_SESSION["cart"] as $keys => $values) {
+			if ($values["food_id"] == $_GET["id"]) {				
+				$_SESSION["cart"][$keys]["item_quantity"]++;					
+				echo '<script>window.location="cart.php"</script>';
+			}
+		}
+	}
+}
+
 if (isset($_POST["add"])) {
 	if (isset($_SESSION["cart"])) {
 		$item_array_id = array_column($_SESSION["cart"], "food_id");
@@ -14,29 +25,36 @@ if (isset($_POST["add"])) {
 				'item_name' => $_POST["item_name"],
 				'item_price' => $_POST["item_price"],
 				'item_id' => $_POST["item_id"],
-				'item_quantity' => $_POST["quantity"]
+				'item_quantity' => 1,
+				'item_image' => $_POST["item_image"]
 			);
 			$_SESSION["cart"][$count] = $item_array;
 			echo '<script>window.location="cart.php"</script>';
+			
 		} else {
 			echo '<script>window.location="cart.php"</script>';
 		}
+		
 	} else {
 		$item_array = array(
 			'food_id' => $_GET["id"],
 			'item_name' => $_POST["item_name"],
 			'item_price' => $_POST["item_price"],
 			'item_id' => $_POST["item_id"],
-			'item_quantity' => $_POST["quantity"]
+			'item_quantity' => 1,
+			'item_image' => $_POST["item_image"]
 		);
 		$_SESSION["cart"][0] = $item_array;
 	}
-}
+	
+} 
+
+
 
 if (isset($_GET["action"])) {
 	if ($_GET["action"] == "delete") {
 		foreach ($_SESSION["cart"] as $keys => $values) {
-			if ($values["food_id"] == $_GET["id"]) {
+			if ($values["food_id"] == $_GET["id"]) {				
 				unset($_SESSION["cart"][$keys]);
 				echo '<script>window.location="cart.php"</script>';
 			}
@@ -44,16 +62,7 @@ if (isset($_GET["action"])) {
 	}
 }
 
-if (isset($_GET["action"])) {
-	if ($_GET["action"] == "add") {
-		foreach ($_SESSION["cart"] as $keys => $values) {
-			if ($values["food_id"] == $_GET["id"]) {
-				$_SESSION["cart"][$keys]["item_quantity"]++;				
-				echo '<script>window.location="cart.php"</script>';
-			}
-		}
-	}
-}
+
 
 if (isset($_GET["action"])) {
 	if ($_GET["action"] == "sub") {
@@ -92,36 +101,47 @@ include('inc/header.php');
 				<table class="table table-striped">
 					<thead class="thead-dark">
 						<tr>							
-							<th></th>
-							<th width="40%">Nome</th>
-							<th width="35%">Qtd</th>							
-							<th width="20%">Subtotal</th>
+							<th width="4%"></th>
+							<th width="20%" style="text-align: center;">Nome</th>
+							<th width="8%" style="text-align: center;">Qtd</th>							
+							<th width="4%" style="text-align: center;">Subtotal</th>
+							<th width="20%" style="text-align: center;">Obs</th>
 							<th width="5%"></th>
 						</tr>
 					</thead>
 					<?php
 					$total = 0;
 					foreach ($_SESSION["cart"] as $keys => $values) {
+						//var_dump($_SESSION["cart"]);exit;
 					?>
 						<tr>							
-							<td><img src="images/xtudo.png" alt="Descrição da imagem" width="50" height="50"></td>
-							<td style="vertical-align: middle;"><?php echo $values["item_name"]; ?></td>
-							<td style="vertical-align: middle;">
+							<td style="vertical-align: middle;"><img src="images/<?php echo $values["item_image"]; ?>" alt="Descrição da imagem" width="50" height="50"></td>							
+							<td style="vertical-align: middle; text-align: center;"><?php echo $values["item_name"]; ?></td>
+							<td style="vertical-align: middle; text-align: center;">
 							<a href="cart.php?action=sub&id=<?php echo $values["food_id"]; ?>"><i class="fas fa-minus-circle text-black"></i></a>							
 							<span id="quantity-<?php echo $values["food_id"]; ?>"><?php echo $values["item_quantity"]; ?></span>
 							<a href="cart.php?action=add&id=<?php echo $values["food_id"]; ?>"><i class="fas fa-plus-circle text-black"></i></a>							
 							</td>									
-							<td style="vertical-align: middle;">R$ <?php echo $values["item_price"]; ?></td>
-							<td style="vertical-align: middle;"><a href="cart.php?action=delete&id=<?php echo $values["food_id"]; ?>"><i class="fas fa-times-circle text-danger"></i></a></td>
+							<td style="vertical-align: middle; text-align: center;">R$ <?php echo $values["item_price"] * $values["item_quantity"]; ?></td>
+							<td style="vertical-align: middle; text-align: center;">
+								<?php if (isset($values["customization"])): ?>
+									<span id="customization-<?php echo $values["food_id"]; ?>"><?php echo $values["customization"]; ?></span>
+									<a href="#" onclick="editCustomization(<?php echo $values["food_id"]; ?>);"><i class="fas fa-edit text-primary"></i></a>
+								<?php else: ?>
+									<span id="customization-<?php echo $values["food_id"]; ?>"></span>
+									<a href="#" onclick="editCustomization(<?php echo $values["food_id"]; ?>);"><i class="fas fa-edit text-primary"></i></a>
+								<?php endif; ?>
+							</td>
+							<td style="vertical-align: middle; text-align: center;"><a href="cart.php?action=delete&id=<?php echo $values["food_id"]; ?>"><i class="fas fa-times-circle text-danger"></i></a></td>
 						</tr>
 					<?php
 						$total = $total + ($values["item_quantity"] * $values["item_price"]);
 					}
 					?>
 					<tr>
-						<td colspan="3" align="right">Total:</td>
+						<td style="vertical-align: middle;" colspan="3" align="right">Total:</td>
 						<td align="right"><strong>R$ <?php echo number_format($total, 2); ?></strong></td>
-						<td></td>
+						
 					</tr>
 				</table>
 				<?php
@@ -144,42 +164,34 @@ include('inc/header.php');
 <?php include('inc/footer.php'); ?>
 
 <script>
-function incrementQuantity(foodId) {
-  var quantityElement = document.getElementById("quantity-" + foodId);
-  var currentQuantity = parseInt(quantityElement.innerText);
-  var newQuantity = currentQuantity + 1;
-  quantityElement.innerText = newQuantity;
-}
 
-function decrementQuantity(foodId) {
-  var quantityElement = document.getElementById("quantity-" + foodId);
-  var currentQuantity = parseInt(quantityElement.innerText);
-  var newQuantity = currentQuantity - 1;
-  quantityElement.innerText = newQuantity;
-}
+    function editCustomization(foodId) {
+        var customizationSpan = document.getElementById("customization-" + foodId);
+        var customizationValue = customizationSpan.innerHTML;
+        var newCustomization = prompt("Editar personalização:", customizationValue);
 
+        if (newCustomization !== null) {
+        // Atualizar o valor exibido no <span>
+        customizationSpan.innerHTML = newCustomization;
 
-function addToCart(itemId) {
-  // Crie um formulário em tempo real
-  var form = document.createElement("form");
-  form.method = "post";
-  form.action = "cart.php?action=add&id=" + itemId;
+        // Atualizar o valor em $_SESSION["cart"]
+        // Para fazer isso, você precisa enviar o novo valor para o servidor (por exemplo, usando AJAX) e lá atualizar $_SESSION["cart"]
+        
+        // Exemplo de como você pode atualizar $_SESSION["cart"] via AJAX usando jQuery
+        $.ajax({
+            type: "POST", // ou "GET" dependendo do seu backend
+            url: "atualizar_cart.php", // URL do script no servidor que atualizará $_SESSION["cart"]
+            data: {
+                foodId: foodId,
+                customization: newCustomization
+            },
+            success: function(response) {               
+            },
+            error: function(xhr, status, error) {
+                // Lidar com erros de requisição AJAX aqui, se necessário
+            }
+        });
+    }
+    }
 
-  // Crie um elemento de botão de envio (opcional)
-  var submitButton = document.createElement("input");
-  submitButton.type = "submit";
-  submitButton.style.display = "none"; // Opcional: ocultar o botão de envio
-
-  // Adicione o botão de envio ao formulário
-  form.appendChild(submitButton);
-
-  // Anexe o formulário ao documento para que ele possa ser enviado
-  document.body.appendChild(form);
-
-  // Envie o formulário
-  form.submit();
-
-  // Opcional: remova o formulário após o envio
-  document.body.removeChild(form);
-}
 </script>
