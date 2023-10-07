@@ -4,12 +4,14 @@ include_once 'config/Database.php';
 $database = new Database();
 $db = $database->getConexao();
 
-if (isset($_GET["action"])) {
-	if ($_GET["action"] == "add") {
-		foreach ($_SESSION["cart"] as $keys => $values) {
-			if ($values["food_id"] == $_GET["id"]) {				
-				$_SESSION["cart"][$keys]["item_quantity"]++;					
-				echo '<script>window.location="cart.php"</script>';
+if (isset($_SESSION["cart"])) {
+	if (isset($_GET["action"])) {
+		if ($_GET["action"] == "add") {
+			foreach ($_SESSION["cart"] as $keys => $values) {
+				if ($values["food_id"] == $_GET["id"]) {				
+					$_SESSION["cart"][$keys]["item_quantity"]++;					
+					echo '<script>window.location="cart.php"</script>';
+				}
 			}
 		}
 	}

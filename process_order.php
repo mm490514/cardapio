@@ -18,7 +18,9 @@ include('inc/header.php');
 	<div class="container-fluid">
 		<div class='row'>
 			<?php
-			if (isset($_POST['enviar']) && !empty($_GET['order'])) {				
+			if (isset($_POST['enviar']) && !empty($_GET['order'])) {
+				
+				
 				
 				if (isset($_POST['obs'])) {
 					$obs = $_POST['obs'];
@@ -26,116 +28,103 @@ include('inc/header.php');
 					$obs = '';
 				}
 
+			
+
+				
+
 				$nome = $_POST['nome'];
 				$mesa = $_SESSION['num_mesa'];
 				$status = 0;
 				$total = 0;
 				$orderDate = date('Y-m-d');
+
+				
+				
 				if (isset($_SESSION["cart"])) {
 					$cont = 0;
+
+					
+					
 					foreach ($_SESSION["cart"] as $keys => $values) {
+
+					
+						
 						$nomeItem[] = $values["item_name"];
 						$preco[] = $values["item_price"];
 						$qtd[] = $values["item_quantity"];
-						$order->item_id = $values["item_id"];
-						$order->item_name = $values["item_name"];
-						$order->item_price = $values["item_price"];
-						$order->quantity = $values["item_quantity"];
-						$order->cliente_nome = $nome;
-						$order->num_mesa = $mesa;
-						$order->status = $status;
-						$order->cliente_observacao = $obs;
-						$order->order_date = $orderDate;
-						$order->order_id = $_GET['order'];
-						$cont++;
-						$order->insert();
+						
+						
+						
 					}
-			?>
-					<script>
-						var texto =
-							encodeURIComponent(`
-✅ NOVO PEDIDO 
------------------------------
-▶ RESUMO DO PEDIDO 
-
-Pedido #<?php echo $_GET['order']; ?>
- 
-<?php
-	$subtotal = 0;
-	for ($i = 0; $i < $cont; $i++) {
-		echo "*" . $qtd[$i] . "x* ";
-		echo "_" . $nomeItem[$i] . "_ ";
-		echo "*(R$ " . $preco[$i] . ")*\n";
-		$subtotal += $preco[$i] * $qtd[$i];
-	}
-?>
-
-Observação: R$ <?php echo $obs . "\n" ?>
-SUBTOTAL: R$ <?php echo $subtotal; ?>
-
-------------------------------------------
-▶ Dados para entrega 
- 
-Nome: <?php echo $nome . "\n" ?>
-Endereço: <?php echo $_POST['rua'] . ", nº: " . $_POST['numero'] . "\n" ?>
-Bairro: <?php echo $_POST['bairro'] . "\n" ?>
-Complemento: <?php echo $_POST['complemento'] . "\n" ?>
-Telefone: <?php echo $contato . "\n" ?>
-
-Taxa de Entrega: R$ 3,00
-
-🕙 Tempo de Entrega: aprox. 45 min
-
-------------------------------- 
-▶ TOTAL = R$ <?php echo ($subtotal + 3). "\n" ?>
------------------------------- 
-
-▶ PAGAMENTO 
-<?php
-switch($opc_pgto){
-	case 1:
-		echo "\nPagamento no Pix\nChave: 11950428309";
-		break;
-	case 2:
-		echo "\nPagamento no cartão\nDébito/Crédito";
-		break;
-	case 3:
-		echo "\nPagamento em Dinheiro\nTroco para: R$ ".$_POST['troco'];
-		break;
-}
-// Pagamento no cartão 
-// Cartão: Mastercard
-?>`)
-						var url = "https://api.whatsapp.com/send?phone=5511977681947&text=" + texto;
-
-						function openInNewTab() {
-							var win = window.open(url, '_blank');
-							win.focus();
-						}
-					</script>
-				<?php
-					unset($_SESSION["cart"]);
+			
 				}
 				?>
+				<br>
+				<html>
+					
+					
 				<div class="container">
 					<div class="jumbotron">
-						<h1 class="text-center" style="color: green;"><span class="glyphicon glyphicon-ok-circle"></span> Pedido Confirmado.</h1>
+						<h1 style="font-weight: bold; margin-top: 15px; font-size: 25px;" class="text-left"><span class="glyphicon glyphicon-ok-circle"></span> Pedido Confirmado.</h1>
 					</div>
+				</div>								
+				<h2 style="color: gray; margin-top: 15px; font-size: 20px;" class="text-left"><?php echo $nome; ?> seu pedido foi confirmado e já está sendo preparado. Obrigado!</h2>												
+				<h2 style="color: gray; margin-top: 15px; font-size: 20px;" class="text-left">Você pode acompanhar seu pedido por aqui.</h2>				
+				<div class="d-grid gap-2 d-md-block" style="text-align: center; margin-top: 30px;">
+					<a href="order.php">
+						<button class="btn btn-danger" type="button" style="color: white; width: 300px; height: 50px;"><p style="margin: 0; padding: 0;">Acompanhar pedido</p></button>
+					</a>
 				</div>
-				<br>
-				<h2 class="text-center">Seu pedido foi confirmado e já está sendo preparado. Obrigado!</h2>
+				
 
-				<h3 class="text-center"> <strong>Número do seu pedido:</strong> <span style="color: blue;"><?php echo $_GET['order']; ?></span> </h3>
+			<table border="0" style="border-collapse: collapse; margin-top: 30px;">
+			<tr>
+				<th>Item</th>
+				<th>Preço</th>
+				<th>Quantidade</th>
+			</tr>
+				<?php
 
-				<h3 class="text-center">Desfrute mais do <a href="index.php">Nosso Cardápio!</a></h3>
-				<div class="d-grid gap-2 d-md-block" style="text-align: center">
-				<a href="order.php">
-					<button class="btn btn-success" type="button" onclick="openInNewTab(url)"><i class="bi bi-check"></i>><p class="branco">Acompanhar pedido</p></a></button>
-				</a>
-				</div>
-			<?php } else { ?>
-				<h3 class="text-center">Desfrute mais da <a href="index.php">Nosso Cardápio!</a></h3>
-			<?php } ?>
+				if (isset($_SESSION["cart"]) && !empty($_SESSION["cart"])) {
+					// Inicialize os arrays
+					$nomeItem = array();
+					$preco = array();
+					$qtd = array();
+
+					// Supondo que $_SESSION["cart"] seja um array associativo
+					foreach ($_SESSION["cart"] as $keys => $values) {
+						// Preencha os arrays com os valores do $_SESSION["cart"]
+						$nomeItem[] = $values["item_name"];
+						$preco[] = $values["item_price"];
+						$qtd[] = $values["item_quantity"];
+
+						$subtotal = $values["item_price"] * $values["item_quantity"];
+						$total += $subtotal;
+					}
+
+					// Exiba os valores dos arrays em uma tabela
+					for ($i = 0; $i < count($nomeItem); $i++) {
+						echo "<tr>";
+						echo "<td>" . $nomeItem[$i] . "</td>";
+						echo "<td>R$ " . number_format($preco[$i], 2) . "</td>"; // Formate o preço como moeda
+						echo "<td>" . $qtd[$i] . "</td>";
+						echo "</tr>";
+					}
+					
+					  // Adicione a linha de total
+					  echo "<tr style='border-top: 2px solid darkgray;'>";
+					  echo "<td colspan='2'><strong>Total:</strong></td>";
+					  echo "<td><strong>R$ " . number_format($total, 2) . "</strong></td>";
+					  echo "</tr>";
+				} else {
+					// Se a sessão "cart" estiver vazia, exiba uma mensagem de que não há itens no carrinho.
+					echo "<tr><td colspan='3'>Não há itens no carrinho.</td></tr>";
+				}
+				?>
+			</table>
+		
+
+			<?php } unset($_SESSION["cart"]); ?>
 		</div>
 	</div>
 	<?php include('inc/footer.php'); ?>

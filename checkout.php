@@ -24,6 +24,8 @@ include('inc/header.php');
 			$precos[] = $values['item_price'];
 			$qtd[] = $values['item_quantity'];
 			$total = ($values["item_quantity"] * $values["item_price"]);
+			//$obs[] = ($values['customization'])  ?? ''; 
+			$obs[] = isset($values['customization']) ? " - " . $values['customization'] : ''; // Define como vazio se não estiver definida
 			$orderTotal = $orderTotal + $total;
 			$cont++;
 		}
