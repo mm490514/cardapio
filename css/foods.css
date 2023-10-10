@@ -134,3 +134,13 @@ footer{
     text-align: center;
 }
 
+.btn-purple {
+    background-color: purple;
+    border-color: purple;
+}
+
+.btn-green {
+    background-color: green;
+    border-color: green;
+}
+

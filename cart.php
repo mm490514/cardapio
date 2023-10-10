@@ -28,6 +28,7 @@ if (isset($_POST["add"])) {
 				'item_price' => $_POST["item_price"],
 				'item_id' => $_POST["item_id"],
 				'item_quantity' => 1,
+				'observacao' => $_POST["observacao"],
 				'item_image' => $_POST["item_image"]
 			);
 			$_SESSION["cart"][$count] = $item_array;
@@ -44,6 +45,7 @@ if (isset($_POST["add"])) {
 			'item_price' => $_POST["item_price"],
 			'item_id' => $_POST["item_id"],
 			'item_quantity' => 1,
+			//'observacao' => $_POST["observacao"],
 			'item_image' => $_POST["item_image"]
 		);
 		$_SESSION["cart"][0] = $item_array;
@@ -126,12 +128,12 @@ include('inc/header.php');
 							</td>									
 							<td style="vertical-align: middle; text-align: center;">R$ <?php echo $values["item_price"] * $values["item_quantity"]; ?></td>
 							<td style="vertical-align: middle; text-align: center;">
-								<?php if (isset($values["customization"])): ?>
-									<span id="customization-<?php echo $values["food_id"]; ?>"><?php echo $values["customization"]; ?></span>
-									<a href="#" onclick="editCustomization(<?php echo $values["food_id"]; ?>);"><i class="fas fa-edit text-primary"></i></a>
+								<?php if (isset($values["observacao"])): ?>
+									<span id="observacao-<?php echo $values["food_id"]; ?>"><?php echo $values["observacao"]; ?></span>
+									<a href="#" onclick="editobservacao(<?php echo $values["food_id"]; ?>);"><i class="fas fa-edit text-primary"></i></a>
 								<?php else: ?>
-									<span id="customization-<?php echo $values["food_id"]; ?>"></span>
-									<a href="#" onclick="editCustomization(<?php echo $values["food_id"]; ?>);"><i class="fas fa-edit text-primary"></i></a>
+									<span id="observacao-<?php echo $values["food_id"]; ?>"></span>
+									<a href="#" onclick="editobservacao(<?php echo $values["food_id"]; ?>);"><i class="fas fa-edit text-primary"></i></a>
 								<?php endif; ?>
 							</td>
 							<td style="vertical-align: middle; text-align: center;"><a href="cart.php?action=delete&id=<?php echo $values["food_id"]; ?>"><i class="fas fa-times-circle text-danger"></i></a></td>
@@ -167,14 +169,14 @@ include('inc/header.php');
 
 <script>
 
-    function editCustomization(foodId) {
-        var customizationSpan = document.getElementById("customization-" + foodId);
-        var customizationValue = customizationSpan.innerHTML;
-        var newCustomization = prompt("Editar personalização:", customizationValue);
+    function editobservacao(foodId) {
+        var observacaoSpan = document.getElementById("observacao-" + foodId);
+        var observacaoValue = observacaoSpan.innerHTML;
+        var newobservacao = prompt("Editar personalização:", observacaoValue);
 
-        if (newCustomization !== null) {
+        if (newobservacao !== null) {
         // Atualizar o valor exibido no <span>
-        customizationSpan.innerHTML = newCustomization;
+        observacaoSpan.innerHTML = newobservacao;
 
         // Atualizar o valor em $_SESSION["cart"]
         // Para fazer isso, você precisa enviar o novo valor para o servidor (por exemplo, usando AJAX) e lá atualizar $_SESSION["cart"]
@@ -185,7 +187,7 @@ include('inc/header.php');
             url: "atualizar_cart.php", // URL do script no servidor que atualizará $_SESSION["cart"]
             data: {
                 foodId: foodId,
-                customization: newCustomization
+                observacao: newobservacao
             },
             success: function(response) {               
             },

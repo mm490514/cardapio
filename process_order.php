@@ -36,7 +36,7 @@ include('inc/header.php');
 				$mesa = $_SESSION['num_mesa'];
 				$status = 0;
 				$total = 0;
-				$orderDate = date('Y-m-d');
+				$orderDate = date('Y-m-d');				
 
 				
 				
@@ -52,6 +52,19 @@ include('inc/header.php');
 						$nomeItem[] = $values["item_name"];
 						$preco[] = $values["item_price"];
 						$qtd[] = $values["item_quantity"];
+
+						$order->item_id = $values["item_id"];
+						$order->item_name = $values["item_name"];						
+						$order->item_price = $values["item_price"];
+						$order->quantity = $values["item_quantity"];
+						$order->cliente_nome = $nome;
+						$order->num_mesa = $mesa;
+						$order->status = $status;
+						$order->cliente_observacao = $values["observacao"];
+						$order->order_date = $orderDate;
+						$order->order_id = $_GET['order'];
+						$cont++;
+						$order->insert();
 						
 						
 						
@@ -82,6 +95,7 @@ include('inc/header.php');
 				<th>Item</th>
 				<th>Preço</th>
 				<th>Quantidade</th>
+				<th>Obs</th>
 			</tr>
 				<?php
 
@@ -90,16 +104,20 @@ include('inc/header.php');
 					$nomeItem = array();
 					$preco = array();
 					$qtd = array();
+					$obs = array();
 
 					// Supondo que $_SESSION["cart"] seja um array associativo
 					foreach ($_SESSION["cart"] as $keys => $values) {
 						// Preencha os arrays com os valores do $_SESSION["cart"]
 						$nomeItem[] = $values["item_name"];
 						$preco[] = $values["item_price"];
-						$qtd[] = $values["item_quantity"];
+						$qtd[] = $values["item_quantity"];	
+						$obs[] = $values["observacao"];						
 
 						$subtotal = $values["item_price"] * $values["item_quantity"];
 						$total += $subtotal;
+
+					
 					}
 
 					// Exiba os valores dos arrays em uma tabela
@@ -108,6 +126,7 @@ include('inc/header.php');
 						echo "<td>" . $nomeItem[$i] . "</td>";
 						echo "<td>R$ " . number_format($preco[$i], 2) . "</td>"; // Formate o preço como moeda
 						echo "<td>" . $qtd[$i] . "</td>";
+						echo "<td>" . $obs[$i] . "</td>";
 						echo "</tr>";
 					}
 					

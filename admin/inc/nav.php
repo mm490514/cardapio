@@ -15,7 +15,7 @@
                         <a class="nav-link active" aria-current="page" href="pedidos.php">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="pedidos.php">Pedidos</a>
+                        <a class="nav-link active" aria-current="page" href="mesas.php">Mesas</a>
                     </li> 
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.php">Produtos</a>
@@ -27,7 +27,7 @@
                         <a class="nav-link" href="../index.php" target="_blank">Visualizar Cardápio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="pedidos.php">Pedidos Finalizados</a>
+                        <a class="nav-link active" aria-current="page" href="pedidos.php">Pedidos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="desloga.php">Logout</a>
