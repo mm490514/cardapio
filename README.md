@@ -43,7 +43,7 @@ Você pode personalizar este sistema de acordo com as necessidades do seu restau
 
 Contribuições são bem-vindas. Se você encontrar bugs ou tiver melhorias a sugerir, crie um problema ou envie um pull request.
 
-## Autor
+## Autores
 
 Matheus Mendes e Martin Almeida.
 
