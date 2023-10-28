@@ -1,5 +1,3 @@
-Para criar um arquivo README para o código fornecido, você pode seguir as melhores práticas para documentação de código. Aqui está um exemplo de como criar um README para o código PHP que você compartilhou:
-
 # Cardápio Digital - Sistema de Pedidos para Restaurantes
 
 Este é um sistema de cardápio digital e pedidos para restaurantes, implementado em PHP. Ele permite aos clientes visualizar as categorias de itens no menu, pesquisar pratos, adicionar itens ao carrinho e fazer pedidos. O sistema é projetado para uso em um ambiente de restaurante onde os clientes podem fazer pedidos por meio de um aplicativo da web.
