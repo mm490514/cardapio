@@ -140,8 +140,15 @@ class Admin
 		return $result;	
 	}
 
+	public function allCategorias(){		
+		$stmt = $this->con->prepare("SELECT id, nome,status FROM ".$this->categoriasTable. " order by id asc");				
+		$stmt->execute();			
+		$result = $stmt->get_result();		
+		return $result;	
+	}
+
 	public function allPedidos(){		
-		$stmt = $this->con->prepare("SELECT id, item_id, name, price, quantity, cliente_nome, status, observacao, order_id, num_mesa FROM ".$this->pedidosTable. " WHERE status <> 2 order by id desc");				
+		$stmt = $this->con->prepare("SELECT id, item_id, name, price, quantity, cliente_nome, status, order_date, observacao, order_id, num_mesa FROM ".$this->pedidosTable. " order by id desc");				
 		$stmt->execute();			
 		$result = $stmt->get_result();		
 		return $result;	
@@ -149,6 +156,13 @@ class Admin
 
 	public function buscarProduto($id){		
 		$stmt = $this->con->prepare("SELECT * FROM ".$this->produtosTable. " WHERE id = ".$id);				
+		$stmt->execute();			
+		$result = $stmt->get_result();	
+		return $result->fetch_assoc();	
+	}
+
+	public function buscarCategoria($id){		
+		$stmt = $this->con->prepare("SELECT * FROM ".$this->categoriasTable. " WHERE id = ".$id);				
 		$stmt->execute();			
 		$result = $stmt->get_result();	
 		return $result->fetch_assoc();	

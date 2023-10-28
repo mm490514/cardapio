@@ -27,7 +27,11 @@ $mesa = $_SESSION['num_mesa'];
             <div style="margin-left: 80px;">
                 </div>
                 <h4 class="mt-3" >Detalhes do pedido</h4>
-                <p class="mb-1" id="Itens"><strong>Itens</strong>: <?php for ($i = 0; $i < $cont; $i++) echo " <br> " . $qtd[$i] . " " . $itens[$i] .  " - R$ "  . $precos[$i]  * $qtd[$i] . " - " .$obs[$i]?> </p>                              
+                <p class="mb-1" id="Itens"><strong>Itens</strong>: <?php for ($i = 0; $i < $cont; $i++) {
+                $obsText = !empty($obs[$i]) ? " - " . $obs[$i] : ""; // Adiciona o hífen se $obs[$i] não estiver vazio
+                echo " <br> " . $qtd[$i] . " " . $itens[$i] .  " - R$ "  . $precos[$i]  * $qtd[$i] . $obsText;
+                } ?> </p>
+
                 <p class="mb-1" id="TotalPedido"><strong>Total pedido</strong>: R$ <?php echo $orderTotal; ?></p>
                 <div class="input-group">
                 </div>

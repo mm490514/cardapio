@@ -65,6 +65,20 @@ include('./inc/nav.php');
         </div>
     </form>
 </div>
+<!-- Modal de confirmação -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Produto Cadastrado com sucesso!</h5> 
+        <i class="bi bi-check-lg" style="font-size: 2rem;"></i>                   
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmUpdate">Ok</button>        
+      </div>
+    </div>
+  </div>
+</div>
 <?php
 
 $hash = md5(implode($_POST));
@@ -92,8 +106,14 @@ if (isset($_SESSION['hash']) && $_SESSION['hash'] == $hash) {
                 $admin->item_image = $_FILES['image']['name'];
                 $admin->item_status = 1;
                 $admin->insertProduto();
-                echo '<div class="container justify-content-center mt-5"><div class="alert alert-warning alert-dismissible fade show" role="alert">Produto cadastrado com sucesso!
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-lable="Close"></button></div></div>';
+                echo '<script>
+                $(document).ready(function() {
+                    $("#confirmModal").modal("show");
+                    $("#confirmUpdate").on("click", function() {
+                        $("#confirmModal").modal(\'hide\');                        
+                    });
+                });
+              </script>';
                 $_SESSION['hash'] = $hash;
                 // header("Location: index.php?msg=Novo produto criado com sucesso!");
             } else {

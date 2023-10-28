@@ -43,7 +43,7 @@ include('./inc/nav.php');
                     $mesaPedidos = array(); // Array para armazenar os pedidos de cada mesa
 
                     while ($row = $resultMesa->fetch_assoc()) {
-                        $sqlPedidos = "SELECT * FROM pedidosvendas WHERE num_mesa = ?";
+                        $sqlPedidos = "SELECT * FROM pedidosvendas WHERE num_mesa = ? and status <> '2'";
                         $stmt = $db->prepare($sqlPedidos);
                         $stmt->bind_param("s", $row['total_mesas_ativas']);
                         $stmt->execute();

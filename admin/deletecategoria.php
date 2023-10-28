@@ -14,13 +14,16 @@ $admin = new Admin($db);
 
 $id = $_GET['id'];
 
-$deletado = $admin->deleteProduto($id);
+$deletado = $admin->deleteCategoria($id);
 
-if($deletado){
-    header("Location: produtos.php?msg=Produto deletado com sucesso!");
+
+
+if ($deletado) {    
+    header("Location: categoria.php?msg=Produto deletado com sucesso!");
 }
-else{
-    echo "Falha! ". mysqli_error($deletado);
+else {
+    echo $deletado;
 }
+
 
 ?>

@@ -42,19 +42,69 @@ include('./inc/nav.php');
     </form>
 </div>
 
+<!-- Modal de confirmação -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Categoria Cadastrada com sucesso!</h5> 
+        <i class="bi bi-check-lg" style="font-size: 2rem;"></i>
+                   
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmUpdate">Ok</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmação -->
+<div class="modal fade" id="existeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Categoria já Cadastrada!</h5> 
+        <i class="bi bi-check-lg" style="font-size: 2rem;"></i>
+                   
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="existeUpdate">Ok</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <?php
 $hash = md5(implode($_POST));
 
-if (isset($_SESSION['hash']) && $_SESSION['hash'] == $hash) {
-    echo "Categoria já foi cadastrada!";
+if (isset($_SESSION['hash']) && $_SESSION['hash'] == $hash) {   
+    echo '<script>
+    $(document).ready(function() {
+        $("#existeModal").modal("show");
+        $("#existeUpdate").on("click", function() {
+            $("#existeModal").modal(\'hide\');  
+            ' . $modalShown = true . '
+            return;                      
+        });
+    });
+  </script>';
 } else {
     if (isset($_POST['nome'])) {
         $admin->item_catName = $_POST['nome'];
         $admin->item_catStatus = 1;
         $admin->insertCategoria();
-        echo "Categoria adicionada com sucesso!";
-        $_SESSION['hash']  = $hash;
+        $_SESSION['hash'] = $hash;
+        
+        // Adicione um script JavaScript para mostrar o modal após a inserção da categoria
+        echo '<script>
+                $(document).ready(function() {
+                    $("#confirmModal").modal("show");
+                    $("#confirmUpdate").on("click", function() {
+                        $("#confirmModal").modal(\'hide\');                        
+                    });
+                });
+              </script>';
     }
 }
 ?>

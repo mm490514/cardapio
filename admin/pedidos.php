@@ -49,15 +49,14 @@ include('./inc/nav.php');
 			<thead class="table-dark">
 				<tr>
 					<th scope="col">Número Pedido</th>
+                    <th scope="col">Data</th>
                     <th scope="col">Número da Mesa</th>
 					<th scope="col">Nome Cliente</th>					
 					<th scope="col">Nome item</th>
                     <th scope="col">Quantidade</th>	                   
                     <th scope="col">Observação</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Ações</th>
-                  
-				</tr>
+                    <th scope="col">Status</th> 
+                </tr>
 			</thead>
 			<tbody>
 				<?php
@@ -72,6 +71,7 @@ include('./inc/nav.php');
 						?>
 						 <tr class="<?php echo $rowClass; ?>">
                             <td><?php echo $item['order_id']?></td>
+                            <td><?php echo $item['order_date']?></td>
                             <td><?php echo $item['num_mesa']?></td>
                             <td><?php echo $item['cliente_nome']?></td>
                             <td><?php echo $item['name']?></td>
@@ -86,11 +86,7 @@ include('./inc/nav.php');
                             } else if ($item['status'] == 3){
                                 $status = "CANCELADO";
                             }?>
-                            <td class="<?php echo $textClass; ?>"><?php echo $status?></td> <!-- Aplica a classe ao texto -->
-                            <td>
-                                <a href="edit.php?id=<?php echo $item['id'] ?>" class="link-dark"><i class="bi bi-pencil-fill me-3"></i></a>
-                                <a href="delete.php?id=<?php echo $item['id'] ?>" class="link-dark"><i class="bi bi-trash-fill fs-5"></i></a>
-                            </td>
+                            <td class="<?php echo $textClass; ?>"><?php echo $status?></td>                       
                         </tr>
 						<?php
 					}

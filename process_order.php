@@ -59,8 +59,12 @@ include('inc/header.php');
 						$order->quantity = $values["item_quantity"];
 						$order->cliente_nome = $nome;
 						$order->num_mesa = $mesa;
-						$order->status = $status;
-						$order->cliente_observacao = $values["observacao"];
+						$order->status = $status;						
+						if (isset($values["observacao"])) {
+							$order->cliente_observacao = $values["observacao"];
+						} else {							
+							$order->cliente_observacao = '';							
+						}
 						$order->order_date = $orderDate;
 						$order->order_id = $_GET['order'];
 						$cont++;
