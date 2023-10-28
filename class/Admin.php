@@ -132,6 +132,19 @@ class Admin
 		}
 		return $stmt;
 	}
+
+	public function updateCategoria($id)
+	{
+		if ($this->item_catName) {
+
+			$this->item_catName = htmlspecialchars(strip_tags($this->item_catName));
+			$this->item_catStatus = htmlspecialchars(strip_tags($this->item_catStatus));			
+			$stmt = $this->con->prepare("
+			UPDATE ".$this->categoriasTable ." SET `nome`='$this->item_catName', `status`='$this->item_catStatus' WHERE id = ".$id." ");
+			$stmt->execute();
+		}
+		return $stmt;
+	}
 	
 	public function allProdutos(){		
 		$stmt = $this->con->prepare("SELECT id, name, id_categoria, price, description, images, status FROM ".$this->produtosTable. " order by id_categoria desc");				

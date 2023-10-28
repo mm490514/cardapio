@@ -16,12 +16,12 @@ if (!$admin->loggedIn()) {
     header("Location: login.php");
 }
 include('../inc/header.php');
-// include('./inc/nav.php'); 
+    include('./inc/nav.php'); 
 ?>
 
 <div class="container mt-4">
     <div class="text-center mb-4">
-        <h3>Editar produto</h3>
+        <h3>Editar categoria</h3>
         <!-- <p class="text-muted">Complete the form</p> -->
     </div>
 </div>
@@ -40,20 +40,36 @@ $item = $admin->buscarCategoria($_GET['id']);
             </div>
         </div>
         <div class="mb-3">
-
             <label class="form-label" for="">Status</label>
             <select type="text" name="status" class="form-control" id="categoria" required>
-                <option value="<?php echo $item['status'] ?>">Selecione</option>
-                <option value=1>Ativo</option>
-                <option value=0>Inativo</option>
+                <option value="0" <?php if ($item['status'] == 0) echo 'selected' ?>>Inativo</option>
+                <option value="1" <?php if ($item['status'] == 1) echo 'selected' ?>>Ativo</option>
             </select>
         </div>
         <div>
             <button type="submit" class="btn btn-success" name="submit">
-                Atualizar</button>
+                Atualizar
+            </button>
             <a href="categoria.php" class="btn btn-danger">Cancelar</a>
         </div>
     </form>
+</div>
+
+
+<!-- Modal de confirmação -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Categoria Atualizada com sucesso!</h5> 
+        <i class="bi bi-check-lg" style="font-size: 2rem;"></i>
+                   
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmUpdate">Ok</button>        
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Modal de confirmação -->
@@ -61,11 +77,12 @@ $item = $admin->buscarCategoria($_GET['id']);
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Categoria já cadastrada!</h5> 
-        <i class="bi bi-check-lg" style="font-size: 2rem;"></i>                   
+        <h5 class="modal-title">Categoria já Cadastrada!</h5> 
+        <i class="bi bi-check-lg" style="font-size: 2rem;"></i>
+                   
       </div> 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="confirmUpdate">Ok</button>        
+        <button type="button" class="btn btn-primary" id="existeUpdate">Ok</button>        
       </div>
     </div>
   </div>
@@ -74,34 +91,34 @@ $item = $admin->buscarCategoria($_GET['id']);
 
 $hash = md5(implode($_POST));
 
-if (isset($_SESSION['hash']) && $_SESSION['hash'] == $hash) {
-    // echo '<div class="container justify-content-center mt-5"><div class="alert alert-warning alert-dismissible fade show" role="alert">Produto já foi cadastrado!
-    // <button type="button" class="btn-close" data-bs-dismiss="alert"
-    // aria-lable="Close"></button></div></div>';
-
+if (isset($_SESSION['hash']) && $_SESSION['hash'] == $hash) {   
     echo '<script>
     $(document).ready(function() {
         $("#existeModal").modal("show");
-        $("#confirmUpdate").on("click", function() {
-            $("#existeModal").modal(\'hide\');                        
+        $("#existeUpdate").on("click", function() {
+            $("#existeModal").modal(\'hide\');  
+            ' . $modalShown = true . '
+            return;                      
         });
     });
   </script>';
-
 } else {
     if (isset($_POST['nome'])) {
-        $admin->item_name = $_POST['nome'];
-        $admin->item_idcategory = $_POST['categoria'];
-        $admin->item_price = $_POST['preco'];
-        $admin->item_description = $_POST['desc'];
-        $admin->item_image = $_POST['image'];
-        $admin->item_status = $_POST['status'];
-        $admin->updateProduto($_GET['id']);
-        echo '<div class="container justify-content-center mt-5"><div class="alert alert-warning alert-dismissible fade show" role="alert">Produto cadastrado com sucesso!
-        <button type="button" class="btn-close" data-bs-dismiss="alert"
-        aria-lable="Close"></button></div></div>';
-        $_SESSION['hash']  = $hash;
-        header("Location: index.php?msg=Produto cadastrado com sucesso!");
+        $admin->item_catName = $_POST['nome'];
+        $admin->item_catStatus = 1;
+        $admin->updateCategoria($_GET['id']);
+        $_SESSION['hash'] = $hash;
+        
+        // Adicione um script JavaScript para mostrar o modal após a inserção da categoria
+        echo '<script>
+                $(document).ready(function() {
+                    $("#confirmModal").modal("show");
+                    $("#confirmUpdate").on("click", function() {
+                        $("#confirmModal").modal(\'hide\');  
+                        window.location.href = \'categoria.php\';                      
+                    });
+                });
+              </script>';
     }
 }
 ?>
