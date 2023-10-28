@@ -78,15 +78,13 @@ include('./inc/nav.php');
                             <td><?php echo $item['quantity']?></td>
                             <td><?php echo $item['observacao']?></td>
                             <?php if ($item['status'] == 0){
-                                $status = "PENDENTE";
+                                $status = "PREPARANDO";
                             } else if ($item['status'] == 1){
-                                $status = "EM PREPARO";
-                            } else if ($item['status'] == 2){
-                                $status = "PRONTO";
-                            } else if ($item['status'] == 3){
                                 $status = "ENTREGUE";
-                            }else if ($item['status'] == 4){
+                            } else if ($item['status'] == 2){
                                 $status = "FINALIZADO";
+                            } else if ($item['status'] == 3){
+                                $status = "CANCELADO";
                             }?>
                             <td class="<?php echo $textClass; ?>"><?php echo $status?></td> <!-- Aplica a classe ao texto -->
                             <td>
