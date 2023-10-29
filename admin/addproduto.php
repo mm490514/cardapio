@@ -34,12 +34,12 @@ include('./inc/nav.php');
                 <label class="form-label" for="">Nome</label>
                 <input type="text" class="form-control" name="nome" required>
                 <label for="" class="form-label">Preço</label>
-                <input type="number" name="preco" id="preco" class="form-control" required>
+                <input type="number" name="preco" id="preco" class="form-control"  step="any"  required>
             </div>
 
             <div class="col">
                 <label class="form-label" for="">Categoria</label>
-                <select type="text" name="categoria" class="form-control" id="categoria" required>
+                <select type="text" name="categoria" class="form-select" id="categoria" required>
                     <option value="">Selecione</option>
                     <?php
                     $result = $categoria->categoriasList();
@@ -48,7 +48,7 @@ include('./inc/nav.php');
                     <?php }; ?>
                 </select>
                 <label class="form-label" for="">Imagem</label>
-                <input type="file" name="image" id="image" class="form-control" multiple />
+                <input type="file" name="image" id="image" class="form-control" multiple required />
             </div>
 
         </div>

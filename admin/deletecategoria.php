@@ -19,7 +19,7 @@ $deletado = $admin->deleteCategoria($id);
 
 
 if ($deletado) {    
-    header("Location: categoria.php?msg=Produto deletado com sucesso!");
+    header("Location: categoria.php?msg=Categoria deletado com sucesso!");
 }
 else {
     echo $deletado;

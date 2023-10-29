@@ -93,10 +93,10 @@ include('inc/header.php');
 						<div class="col-md-3">
 							<form method="post" action="cart.php?action=add&id=<?php echo $item["id"]; ?>">
 								<div class="mypanel" align="center" ;>
-									<img src="images/<?php echo $item["images"]; ?>" alt="" class="img-fluid">										
-									<h5 class="text-dark"><?php echo $item["name"]; ?></h5>
+									<img src="images/<?php echo $item["images"]; ?>" alt="" class="img-fluid" width="177" height="132">										
+									<h5 class="text-dark" style="margin-top: 10px"><?php echo $item["name"]; ?></h5>
 									<p class="text"><?php echo $item["description"]; ?></p>
-									<h5 class="text"><strong>R$ <?php echo $item["price"]; ?></strong></h5>									
+									<h5 class="text"><strong>R$ <?php echo number_format($item["price"], 2, ',', '.'); ?></strong></h5>								
 									<input type="hidden" name="item_name" value="<?php echo $item["name"]; ?>">
 									<input type="hidden" name="item_price" value="<?php echo $item["price"]; ?>">
 									<input type="hidden" name="item_id" value="<?php echo $item["id"]; ?>">
