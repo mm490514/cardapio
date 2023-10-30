@@ -90,7 +90,7 @@ if (isset($_GET["action"])) {
 
 include('inc/header.php');
 ?>
-<title>Projeto</title>
+<title>Cardapio</title>
 <?php include('inc/container.php'); ?>
 <div class="content">
 	<div class="container-fluid">

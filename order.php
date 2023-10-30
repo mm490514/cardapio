@@ -4,119 +4,87 @@ include_once 'config/Database.php';
 $database = new Database();
 $db = $database->getConexao();
 
-if (isset($_POST["add"])) {
-	if (isset($_SESSION["order"])) {
-		$item_array_id = array_column($_SESSION["order"], "food_id");
-		if (!in_array($_GET["id"], $item_array_id)) {
-			$count = count($_SESSION["order"]);
-			$item_array = array(
-				'item_name' => $_POST["item_name"],
-				'item_price' => $_POST["item_price"],
-				'item_id' => $_POST["item_id"],
-				'item_quantity' => $_POST["quantity"],
-                'cliente_nome' => $_POST["cliente_nome"],
-                'observacao' => $_POST["observacao"]
-			);
-			$_SESSION["order"][$count] = $item_array;
-			echo '<script>window.location="order.php"</script>';
-		} else {
-			echo '<script>window.location="order.php"</script>';
-		}
-	} else {
-		$item_array = array(
-			    'item_name' => $_POST["item_name"],
-				'item_price' => $_POST["item_price"],
-				'item_id' => $_POST["item_id"],
-				'item_quantity' => $_POST["quantity"],
-                'cliente_nome' => $_POST["cliente_nome"],
-                'observacao' => $_POST["observacao"]
-		);
-		$_SESSION["order"][0] = $item_array;
-	}
-}
-
-if (isset($_GET["action"])) {
-	if ($_GET["action"] == "delete") {
-		foreach ($_SESSION["order"] as $keys => $values) {
-			if ($values["item_id"] == $_GET["id"]) {
-				unset($_SESSION["order"][$keys]);
-				echo '<script>window.location="order.php"</script>';
-			}
-		}
-	}
-}
-
-if (isset($_GET["action"])) {
-	if ($_GET["action"] == "empty") {
-		foreach ($_SESSION["order"] as $keys => $values) {
-			unset($_SESSION["order"]);
-			echo '<script>window.location="order.php"</script>';
-		}
-	}
-}
-
 include('inc/header.php');
+$mesa = $_SESSION['num_mesa'];
+$sqlPedidos = "SELECT * FROM pedidosvendas WHERE num_mesa = ? and status <> '2'";
+$stmt = $db->prepare($sqlPedidos);
+$stmt->bind_param("i", $mesa);
+$stmt->execute();
+$resultP = $stmt->get_result();
+$qtd = $resultP->num_rows;
+
 ?>
-<title>Projeto</title>
+<title>Cardapio</title>
 <?php include('inc/container.php'); ?>
 <div class="content">
 	<div class="container-fluid">
 		<div class='row'>
 			<?php include('top_menu.php'); ?>
 		</div>
-		<div class='row'>
+		<div class='row'>	
 			<?php
-			if (!empty($_SESSION["order"])) {
-			?>
-				<h3>Seu Carrinho:</h3>
+            if ($resultP->num_rows > 0) {
+            ?>		
+				<h3>Seus Pedidos:</h3>
 				<table class="table table-striped">
 					<thead class="thead-dark">
-						<tr>
-							<th width="40%">Nome</th>							
-							<th width="10%">Qtd</th>
-							<th width="20%">Preço Uni.</th>
-							<th width="25%">Subtotal</th>
-							<th width="5%">Acão</th>
+						<tr>							
+							<th width="4%">Pedido</th>
+							<th width="30%" style="text-align: center;">Item</th>
+							<th width="8%" style="text-align: center;">Qtd</th>							
+							<th width="20%" style="text-align: center;">Obs</th>
+							<th width="20%" style="text-align: center;">Status</th>							
 						</tr>
-					</thead>
+					</thead>					
 					<?php
-					$total = 0;
-					foreach ($_SESSION["order"] as $keys => $values) {
-					?>
+						while ($row = $resultP->fetch_assoc()) {
+							if ($row['status'] == 0) {                            
+								$textClass = 'text-primary';
+							} else if ($row['status'] == 1) {                            
+								$textClass = 'text-success';
+							} else if ($row['status'] == 3) {                            
+								$textClass = 'text-danger';
+							}else {  
+								$textClass = ''; 
+							}
+							$pedido = $row['order_id'];
+							$item = $row['name'];
+							$quantidade = $row['quantity'];
+							$obs = $row['observacao'];
+							$status = $row['status'];
+						?>
 						<tr>
-							<td><?php echo $values["cliente_nome"]; ?></td>
-                            <td><?php echo $values["item_id"]; ?></td>
-                            <td><?php echo $values["observacao"]; ?></td>
-                            <td><?php echo $values["item_name"]; ?></td>
-							<td><?php echo $values["item_quantity"]?></td>
-							<td>R$ <?php echo $values["item_price"]; ?></td>
-							<td>R$ <?php echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
-							<td><a href="order.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span class="text-danger">Remover</span></a></td>
+							<td style="vertical-align: middle;"><?php echo $pedido; ?></td>
+							<td style="vertical-align: middle; text-align: center;"><?php echo $item; ?></td>
+							<td style="vertical-align: middle; text-align: center;"><?php echo $quantidade; ?></td>
+							<td style="vertical-align: middle; text-align: center;"><?php echo $obs; ?></td>
+							<?php if ($row['status'] == 0){
+                                $status = "PREPARANDO";
+                            } else if ($row['status'] == 1){
+                                $status = "ENTREGUE";
+                            } else if ($row['status'] == 2){
+                                $status = "FINALIZADO";
+                            } else if ($row['status'] == 3){
+                                $status = "CANCELADO";
+                            }?>
+                            <td style="vertical-align: middle; text-align: center;" class="<?php echo $textClass; ?>"><?php echo $status?></td>   
 						</tr>
-					<?php
-						$total = $total + ($values["item_quantity"] * $values["item_price"]);
-					}
-					?>
-					<tr>
-						<td colspan="3" align="right">Total:</td>
-						<td align="right"><strong>R$ <?php echo number_format($total, 2); ?></strong></td>
-						<td></td>
-					</tr>
-				</table>
+						<?php
+						}
+						?>
+										
+				</table>	
 				<?php
-				echo '<div><a href="order.php?action=empty"><button class="btn btn-danger"><span class="bi bi-trash-fill"></span> Limpar Carrinho</button></a>&nbsp;<a href="index.php"><button class="btn btn-warning">Adicionar mais itens</button></a>&nbsp;<a href="checkout.php"><button class="btn btn-success float-end"><span class="bi bi-arrow-right"></span> Confirmar</button></a></div>';
-				?>
-			<?php
-			} elseif (empty($_SESSION["order"])) {
-			?>
-				<div class="container">
-					<div class="jumbotron">
-						<h3>Sem pedidos faça ja seus <a href="index.php">pedidos!</a></h3>
-					</div>
-				</div>
-			<?php
-			}
-			?>
+            } else {
+            ?>
+			<div class="container">
+                <div class="jumbotron">
+                    <h3>Você ainda não tem pedidos. Escolha seus <a href="index.php">produtos!</a></h3>
+                </div>
+            </div>
+            <?php
+            }
+            ?>					
 		</div>
 	</div>
 </div>

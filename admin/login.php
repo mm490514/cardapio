@@ -26,7 +26,7 @@ if (!empty($_POST["login"]) && !empty($_POST["email"]) && !empty($_POST["passwor
         $loginMessage = 'Dados incorretos!';
     }
 } else {
-    $loginMessage = 'Preencha todos os campos';
+    //$loginMessage = 'Preencha todos os campos';
 }
 
 ?>
@@ -43,7 +43,7 @@ if (!empty($_POST["login"]) && !empty($_POST["email"]) && !empty($_POST["passwor
                 <div class="card shadow-lg">
                 <img src="./../images/logo.png" class="img-fluid">		   
                     <?php if ($loginMessage != '') { ?>
-                       
+                        <div id="login-alert" class="alert alert-danger col-sm-12"><?php echo $loginMessage; ?></div>
                     <?php } ?>
 
 

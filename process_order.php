@@ -10,7 +10,7 @@ include('inc/header.php');
 ?>
 
 
-<title>Projeto</title>
+<title>Cardapio</title>
 <link rel="stylesheet" type="text/css" href="css/foods.css">
 <?php include('inc/container.php'); ?>
 
@@ -115,8 +115,12 @@ include('inc/header.php');
 						// Preencha os arrays com os valores do $_SESSION["cart"]
 						$nomeItem[] = $values["item_name"];
 						$preco[] = $values["item_price"];
-						$qtd[] = $values["item_quantity"];	
-						$obs[] = $values["observacao"];						
+						$qtd[] = $values["item_quantity"];							
+						if (isset($values["observacao"])) {
+							$obs[] = $values["observacao"];		
+						} else {
+							$obs[] = "";
+						}			
 
 						$subtotal = $values["item_price"] * $values["item_quantity"];
 						$total += $subtotal;

@@ -1,4 +1,12 @@
 <?php
+$mesa = $_SESSION['num_mesa'];
+$sqlPedidos = "SELECT COUNT(*) FROM (SELECT DISTINCT order_id FROM pedidosvendas WHERE status <> 2 and num_mesa = ?) AS subquery";
+$stmt = $db->prepare($sqlPedidos);
+$stmt->bind_param("i", $mesa);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_row();
+$qtdP = $row[0];
 if (true) {
   ?>
    <ul class="nav nav-tabs justify-content-end mt-3 mb-3">
@@ -17,11 +25,10 @@ if (true) {
 		echo "0";
 	  ?>) </a></li>
 	  <li>
-		<a href="order.php" class="nav-link <?php if( mb_strpos($_SERVER["SCRIPT_NAME"], '#') != false) echo "active"?>" aria-current="page">
+		<a href="order.php" class="nav-link <?php if( mb_strpos($_SERVER["SCRIPT_NAME"], 'order.php') != false) echo "active"?>" aria-current="page">
 		<i class="bi bi-bag-check"></i> Pedidos  (<?php
-	  if(isset($_SESSION["pedidos"])){
-	  $count = count($_SESSION["pedidos"]); 
-	  echo "$count"; 
+	  if($qtdP){	 
+	  echo "$qtdP "; 
 		}
 	  else
 		echo "0";
